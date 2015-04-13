@@ -2,13 +2,15 @@ library(shiny)
 library(xlsx)
 
 shinyUI(fluidPage(
-        titlePanel("Kiteplot generator"),
+        titlePanel("Kiteplot Generator"),
         sidebarLayout(
                 sidebarPanel(
-                        fileInput('file1', 'Choose xlsx file'),
-                        textInput("text_field","Choose title for plot"),
-                        radioButtons("method","Method of research",c("Proportion"="prop","Individuals"="individ")),
-                        downloadButton('downloadPlot', label = "Download plot as PDF")
+                        fileInput('file1', 'Choose .xlsx File'),
+                        textInput("title","Choose Title for Plot"),
+                        textInput("interval", "Height Interval of Measurements"),
+                        radioButtons("method","Method of Research",c("Proportions"="prop","Individuals"="individ", "Biomass" = "biomass")),
+                        textInput("unit", "Size of Surface in m^2"),
+                        downloadButton('downloadPlot', label = "Download Plot as PDF")
                 ),
                 
                 mainPanel(
