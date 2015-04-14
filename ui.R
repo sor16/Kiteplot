@@ -9,7 +9,10 @@ shinyUI(fluidPage(
                         textInput("title","Choose Title for Plot"),
                         textInput("interval", "Height Interval of Measurements"),
                         radioButtons("method","Method of Research",c("Proportions"="prop","Individuals"="individ", "Biomass" = "biomass")),
-                        textInput("unit", "Size of Surface in m^2"),
+                        conditionalPanel(
+                              condition = "input.method == 'biomass'",
+                              textInput("unit", "Size of Surface in m^2")
+                        ),
                         downloadButton('downloadPlot', label = "Download Plot as PDF")
                 ),
                 
