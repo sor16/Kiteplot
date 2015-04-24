@@ -2,7 +2,7 @@ library(shiny)
 library(xlsx)
 library(plyr)
 library(devtools)
-install_github("Rakari/SirKR")
+#install_github("Rakari/SirKR")
 library(SirKR)
 
 shinyServer(function(input, output) {
@@ -40,7 +40,7 @@ shinyServer(function(input, output) {
                data=ddply(data,names(data)[1],colwise(meanNA))
                data=clean(data)
                height=data[,1]
-               maxdata=max(data[,2:end])
+               maxdata=max(data[,2:end],na.rm=T)
                
                if(input$method == "prop"){
                     data=cbind(height,data[,2:end]/100)
@@ -54,8 +54,9 @@ shinyServer(function(input, output) {
                graphmirror=t(translation-t(data[,2:end]))
                graphdata=cbind(graph,graphmirror)
                ylim=interval/2*max(height)+1
+               xlim=tail(translation,1)+2
                cex=0.7
-               matplot(graphdata,interval/2*height,type="l",col=rep("black",ncol(graphdata)), ylim=c(0,ylim),lty=rep(1,ncol(graphdata)),xlab="",ylab="Height (m)",xaxt="n",bty="n",cex.axis=cex,cex.lab=cex,main = input$title)
+               matplot(graphdata,interval/2*height,type="l",col=rep("black",ncol(graphdata)), ylim=c(0,ylim),xlim=c(0,xlim),lty=rep(1,ncol(graphdata)),xlab="",ylab="Height (m)",xaxt="n",bty="n",cex.axis=cex,cex.lab=cex,main = input$title)
                mtext(names(data[2:end]),side=1,at=translation,cex=cex)
                legendline=c(tail(translation,1)-2,tail(translation,1))
                lines(legendline,c(ylim-0.375,ylim-0.375))
@@ -108,7 +109,7 @@ shinyServer(function(input, output) {
                           data=ddply(data,names(data)[1],colwise(meanNA))
                           data=clean(data)
                           height=data[,1]
-                          maxdata=max(data[,2:end])
+                          maxdata=max(data[,2:end],na.rm=T)
                           
                           if(input$method == "prop"){
                                data=cbind(height,data[,2:end]/100)
@@ -123,7 +124,8 @@ shinyServer(function(input, output) {
                           graphdata=cbind(graph,graphmirror)
                           ylim=interval/2*max(height)+1
                           cex=0.7
-                          matplot(graphdata,interval/2*height,type="l",col=rep("black",ncol(graphdata)), ylim=c(0,ylim),lty=rep(1,ncol(graphdata)),xlab="",ylab="Height (m)",xaxt="n",bty="n",cex.axis=cex,cex.lab=cex,main = input$title)
+                          xlim=tail(translation,1)+2
+                          matplot(graphdata,interval/2*height,type="l",col=rep("black",ncol(graphdata)), ylim=c(0,ylim),xlim=c(0,xlim),lty=rep(1,ncol(graphdata)),xlab="",ylab="Height (m)",xaxt="n",bty="n",cex.axis=cex,cex.lab=cex,main = input$title)
                           mtext(names(data[2:end]),side=1,at=translation,cex=cex)
                           legendline=c(tail(translation,1)-2,tail(translation,1))
                           lines(legendline,c(ylim-0.375,ylim-0.375))
